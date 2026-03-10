@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PerhitunganController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UserController;
+use App\Models\Student;
 use Illuminate\Support\Facades\Route;
 
 
@@ -66,5 +70,9 @@ Route::post('store',[\App\Http\Controllers\BelajarController::class,'store'])->n
 Route::get('/', [\App\Http\Controllers\LoginController::class,'index']);
 Route::post('action-login', [\App\Http\Controllers\LoginController::class,'actionLogin'])->name('action-login');
 Route::post('logout', [\App\Http\Controllers\LoginController::class,'logout'])->name('logout');
+
+Route::resource('user',UserController::class);
+Route::resource('role',RoleController::class);
+Route::resource('student',StudentController::class);
 //dashboard
 Route::get('dashboard', [\App\Http\Controllers\DashboardController::class,'index']);
