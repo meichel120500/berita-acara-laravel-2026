@@ -37,7 +37,7 @@ class StudentController extends Controller
            'gender' => 'nullable',
            'phone' => 'nullable',
            'address' => 'nullable',
-           'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+           'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
            
         ]);
         $imageName = null;
@@ -119,7 +119,7 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-       $student = Student::find($id);
+       $student = Student::findOrFail($id);
        $student->delete();
        unlink(public_path('uploads/students/'.$student->image));
        Alert::success('Success','Berhasil Menghapus Data');

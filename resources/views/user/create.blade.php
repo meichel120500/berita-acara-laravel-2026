@@ -11,17 +11,26 @@
                     <form action="{{ route('user.store') }}" method="post">
                         @csrf
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label">Role *</label>
+                            <select name="role_id" id="" class="form-control">
+                                <option value="">--Pilih Role--</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name *</label>
                             <input type="text" class="form-control" id="name" name="name"
                                 placeholder="Enter Your Name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label">Email *</label>
                             <input type="email" class="form-control" id="email" name="email"
                                 placeholder="Enter Your Email" required>
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
+                            <label for="password" class="form-label">Password *</label>
                             <input type="password" class="form-control" id="password" name="password"
                                 placeholder="Enter Your Password" required>
                         </div>

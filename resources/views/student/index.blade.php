@@ -24,7 +24,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $student->name }}</td>
                                     <td>
-                                        <img src="{{ asset('storage/' . $student->image) }}" width="50" height="50">
+                                        <img src="{{ asset('uploads/students/' . $student->image) }}" width="100">
                                     </td>
                                     <td>{{ $student->email }}</td>
                                     <td>{{ $student->phone }}</td>
@@ -32,14 +32,13 @@
                                     <td>
                                         <a href="{{ route('student.edit', $student->id) }}"
                                             class="btn btn-primary btn-sm">Edit</a>
-                                        <form id="delete-from-{{ $role->id }}"
+                                        <form id="delete-from-{{ $student->id }}"
                                             action="{{ route('student.destroy', $student->id) }}"method="post"
                                             class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm delete-btn"> Delete</button>
                                         </form>
-
                                     </td>
                                 </tr>
                             @endforeach

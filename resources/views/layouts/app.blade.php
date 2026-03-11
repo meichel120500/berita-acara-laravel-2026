@@ -88,9 +88,24 @@
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
-    @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).on('click', '.delete-btn',function(e){
+        const imgInput = document.getElementById('image-input');
+        const imgPreview = document.getElementById('img -preview');
+
+        imgInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener('load', function() {
+                    imgPreview.setAttribute('src', this.result);
+                });
+                reader.readAsDataURL(file);
+            }
+        });
+</script>
+    <script>
+        $(document).on('click', '.delete-btn', function(e) {
             e.preventDefault();
             var form = $(this).closest('form');
             Swal.fire({

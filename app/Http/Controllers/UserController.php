@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+
 class UserController extends Controller
 {
     /**
@@ -12,9 +14,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $title= "Data User"; 
-        $users = User::get();
-        return view('user.index',compact('title','users'));
+        $title = "Data User";
+        $users = User::with('role')->get();
+        return view('user.index', compact('title', 'users'));
     }
 
     /**
@@ -23,7 +25,8 @@ class UserController extends Controller
     public function create()
     {
         $title = 'Create New User';
-       return view('user.create', compact('title'));
+        $roles = Role::all();
+        return view('user.create', compact('title', 'roles'));
     }
 
     /**
@@ -32,16 +35,18 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'name' => 'required|string',
-           'email' => 'required|email|unique:users,email',
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
+
         ]);
         User::create([
-           'name' => $request->name,
-           'email' => $request->email,
-           'password' => $request->password, 
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'role_id' => $request->role_id
         ]);
-        Alert::success('Success','Berhasil Menambahkan Data');
+        Alert::success('Success', 'Berhasil Menambahkan Data');
         return redirect()->route('user.index');
     }
 
@@ -59,8 +64,9 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $title = "Edit User";
-        $user = User::find($id);//select * from users where id="$id"
-        return view('user.edit',compact('title','user'));
+        $user = User::find($id); //select * from users where id="$id"
+        $roles = Role::all();
+        return view('user.edit', compact('title', 'user', 'roles'));
     }
 
     /**
@@ -70,19 +76,22 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-           'email' => 'required|email|unique:users,email,'. $id,
+            'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|min:8',
+            'role_id' => 'required',
+
         ]);
-        
+
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->role_id = $request->role_id;
         if ($request->password) {
             $user->password = $request->password;
         }
         $user->save();
 
-        Alert::success('Success','Berhasil Mengubah Data');
+        Alert::success('Success', 'Berhasil Mengubah Data');
         return redirect()->route('user.index');
     }
 
@@ -91,9 +100,9 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-       $user = User::find($id);
-       $user->delete();
-       Alert::success('Success','Berhasil Menghapus Data');
-       return redirect()->route('user.index');
+        $user = User::find($id);
+        $user->delete();
+        Alert::success('Success', 'Berhasil Menghapus Data');
+        return redirect()->route('user.index');
     }
 }

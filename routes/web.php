@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttandanceController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PerhitunganController;
 use App\Http\Controllers\RoleController;
@@ -74,5 +75,6 @@ Route::post('logout', [\App\Http\Controllers\LoginController::class,'logout'])->
 Route::resource('user',UserController::class);
 Route::resource('role',RoleController::class);
 Route::resource('student',StudentController::class);
+Route::resource('attandance',AttandanceController::class);
 //dashboard
 Route::get('dashboard', [\App\Http\Controllers\DashboardController::class,'index']);
